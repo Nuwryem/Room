@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Room</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="login">
+    <h2>Join Room</h2>
+    <input id="username" placeholder="Username"><br>
+    <input id="roomId" placeholder="Room ID"><br>
+    <input id="password" placeholder="Password" type="password"><br>
+    <button onclick="joinRoom()">Enter</button>
+</div>
+
+<div id="chat" style="display:none;">
+    <div id="chatHeader">Room Chat</div>
+    
+    <div id="messages"></div>
+
+    <div id="inputArea">
+        <input id="messageInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendMessage()">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
