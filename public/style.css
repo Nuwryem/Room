@@ -86,3 +86,8 @@ button {
     flex: 1;
     margin-right: 10px;
 }
+.message span {
+    display: block;
+    margin-top: 5px;
+    text-align: right;
+}
