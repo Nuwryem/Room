@@ -8,9 +8,9 @@
 
 <div id="login">
     <h2>Join Room</h2>
-    <input id="username" placeholder="Username"><br>
-    <input id="roomId" placeholder="Room ID"><br>
-    <input id="password" placeholder="Password" type="password"><br>
+    <input id="username" placeholder="Username" onkeydown="if(event.key==='Enter') joinRoom()"><br>
+<input id="roomId" placeholder="Room ID" onkeydown="if(event.key==='Enter') joinRoom()"><br>
+<input id="password" placeholder="Password" type="password" onkeydown="if(event.key==='Enter') joinRoom()"><br>
     <button onclick="joinRoom()">Enter</button>
 </div>
 
