@@ -1,7 +1,7 @@
 socket.emit('errorMessage', 'Wrong password');
 return;
 }
-}
+
 
 // Prevent duplicate usernames in same room
 for (let [id, s] of io.of("/").sockets) {
