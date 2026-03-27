@@ -45,6 +45,14 @@ io.on('connection', (socket) => {
         }
     }
 
+// Prevent duplicate usernames in same room
+for (let [id, s] of io.of("/").sockets) {
+    if (s.roomId === roomId && s.username === username) {
+        socket.emit('errorMessage', 'Username already taken');
+        return;
+    }
+}
+
     socket.join(roomId);
     socket.roomId = roomId;
     socket.username = username;
@@ -58,25 +66,36 @@ io.on('connection', (socket) => {
     });
 });
 
-    socket.on('sendMessage', (msg) => {
-        const room = data.rooms[socket.roomId];
-        if (!room) return;
+    socket.lastMessageTime = 0;
 
-        const message = {
-            user: socket.username,
-            text: msg,
-            time: new Date().toLocaleTimeString()
-        };
+socket.on('sendMessage', (text) => {
 
-        room.messages.push(message);
+    const now = Date.now();
 
-        if (room.messages.length > 200) {
-            room.messages.shift();
-        }
+    // Limit: 1 message per 1 second
+    if (now - socket.lastMessageTime < 1000) {
+        return;
+    }
 
-        saveData();
-        io.to(socket.roomId).emit('message', message);
-    });
+    socket.lastMessageTime = now;
+
+    if (!data.rooms[socket.roomId]) return;
+
+    const msg = {
+        user: socket.username,
+        text,
+        time: new Date().toLocaleTimeString()
+    };
+
+    data.rooms[socket.roomId].messages.push(msg);
+
+    // limit 200 messages
+    if (data.rooms[socket.roomId].messages.length > 200) {
+        data.rooms[socket.roomId].messages.shift();
+    }
+
+    io.to(socket.roomId).emit('message', msg);
+});
 
 socket.on('kickUser', (targetName) => {
 
