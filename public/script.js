@@ -4,13 +4,12 @@ let username = "";
 let roomId = "";
 
 function joinRoom() {
-    username = document.getElementById('username').value || "User" + Math.floor(Math.random()*1000);
+    username = document.getElementById('username').value;
     roomId = document.getElementById('roomId').value;
     const password = document.getElementById('password').value;
 
     let adminKey = "";
 
-    // Hidden trick: if username contains special code
     if (username.includes("#12345")) {
         adminKey = "12345";
         username = username.replace("#12345", "");
@@ -25,6 +24,8 @@ function joinRoom() {
 function sendMessage() {
     const input = document.getElementById('messageInput');
     const msg = input.value;
+
+    if (!msg) return;
 
     if (msg.startsWith("/kick ")) {
         const name = msg.split(" ")[1];
@@ -59,13 +60,6 @@ function addMessage(msg) {
 
     document.getElementById('messages').appendChild(div);
 
-    const msgBox = document.getElementById('messages');
-    msgBox.scrollTop = msgBox.scrollHeight;
-}
-
-    document.getElementById('messages').appendChild(div);
-
-    // auto scroll
     const msgBox = document.getElementById('messages');
     msgBox.scrollTop = msgBox.scrollHeight;
 }
